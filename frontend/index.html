@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocGen Mongo - Document Automation System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .alert-custom {
+            border-left: 4px solid #007bff;
+            background-color: #f8f9fa;
+        }
+        .loading {
+            display: none;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .file-upload-area:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        .template-preview {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .placeholder-tag {
+            background-color: #e7f3ff;
+            color: #0056b3;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login to DocGen Mongo
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </button>
+                    </form>
+                    
+                    <div class="mt-4">
+                        <h6>Demo Accounts:</h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <small class="text-muted">Admin:</small><br>
+                                <small>admin@docgen.com</small><br>
+                                <small>admin123</small>
+                            </div>
+                            <div class="col-md-4">
+                                <small class="text-muted">HR:</small><br>
+                                <small>hr@docgen.com</small><br>
+                                <small>hr123</small>
+                            </div>
+                            <div class="col-md-4">
+                                <small class="text-muted">Staff:</small><br>
+                                <small>staff@docgen.com</small><br>
+                                <small>staff123</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Templates Section -->
+                <div class="content-section" id="templates">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-file-code me-2"></i>Templates</h2>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#templateModal">
+                            <i class="fas fa-plus me-2"></i>Add Template
+                        </button>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="templatesTable">
+                                <div class="text-center py-4">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">Loading templates...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Single Document Generation -->
+                <div class="content-section" id="generate-single">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-file-plus me-2"></i>Generate Single Document</h2>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Document Details</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="singleDocForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Template</label>
+                                            <select class="form-select" id="singleTemplate" required>
+                                                <option value="">Select Template</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div id="singleDocFields">
+                                            <!-- Dynamic fields will be populated here -->
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Output Format</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="generatePDF" checked>
+                                                <label class="form-check-label" for="generatePDF">PDF</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="generateDOCX" checked>
+                                                <label class="form-check-label" for="generateDOCX">DOCX</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="sendEmail">
+                                                <label class="form-check-label" for="sendEmail">
+                                                    Send via Email
+                                                </label>
+                                            </div>
+                                            <input type="email" class="form-control mt-2" id="recipientEmail" 
+                                                   placeholder="Recipient email" style="display: none;">
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fas fa-file-download me-2"></i>Generate Document
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Template Preview</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="templatePreview" class="template-preview">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-eye fa-3x mb-3"></i>
+                                            <p>Select a template to see preview</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bulk Generation Section -->
+                <div class="content-section" id="generate-bulk">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-files me-2"></i>Bulk Document Generation</h2>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Upload & Configure</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="bulkGenerationForm">
+                                        <div class="mb-3">
+                                            <label class="form-label">Template</label>
+                                            <select class="form-select" id="bulkTemplate" required>
+                                                <option value="">Select Template</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Upload Data File</label>
+                                            <div class="file-upload-area">
+                                                <input type="file" class="form-control" id="bulkDataFile" 
+                                                       accept=".csv,.xlsx,.xls" required>
+                                                <div class="mt-2">
+                                                    <i class="fas fa-cloud-upload-alt fa-2x text-muted"></i>
+                                                    <p class="text-muted mb-0">Upload CSV or Excel file</p>
+                                                    <small class="text-muted">Supported formats: .csv, .xlsx, .xls</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="columnMapping" style="display: none;">
+                                            <h6>Column Mapping</h6>
+                                            <div class="alert alert-info">
+                                                <small>Map your file columns to template placeholders</small>
+                                            </div>
+                                            <div id="mappingFields">
+                                                <!-- Dynamic mapping fields will be populated here -->
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label">Output Format</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="bulkGeneratePDF" checked>
+                                                    <label class="form-check-label" for="bulkGeneratePDF">PDF</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="bulkGenerateDOCX" checked>
+                                                    <label class="form-check-label" for="bulkGenerateDOCX">DOCX</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="bulkSendEmail">
+                                                    <label class="form-check-label" for="bulkSendEmail">
+                                                        Send Notification Email
+                                                    </label>
+                                                </div>
+                                                <input type="email" class="form-control mt-2" id="bulkRecipientEmail" 
+                                                       placeholder="Notification email" style="display: none;">
+                                            </div>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-cogs me-2"></i>Start Bulk Generation
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Instructions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ol class="small">
+                                        <li>Select a template from the dropdown</li>
+                                        <li>Upload your CSV or Excel file</li>
+                                        <li>Map columns to template placeholders</li>
+                                        <li>Choose output formats</li>
+                                        <li>Click "Start Bulk Generation"</li>
+                                    </ol>
+                                    
+                                    <div class="alert alert-custom mt-3">
+                                        <strong>Sample CSV Format:</strong><br>
+                                        <small>
+                                            name,role,company,date<br>
+                                            John Doe,Developer,ABC Corp,2024-01-01<br>
+                                            Jane Smith,Manager,XYZ Inc,2024-01-02
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Generation Progress</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="bulkProgress" style="display: none;">
+                                        <div class="progress mb-3">
+                                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <small id="progressText">Processing...</small>
+                                            <small id="progressPercent">0%</small>
+                                        </div>
+                                    </div>
+                                    <div id="bulkResults" style="display: none;">
+                                        <!-- Results will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Audit Trail Section -->
+                <div class="content-section" id="audit">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-history me-2"></i>Audit Trail</h2>
+                        <div class="d-flex gap-2">
+                            <input type="date" class="form-control" id="auditDateFilter" style="width: 150px;">
+                            <button class="btn btn-outline-primary" id="refreshAudit">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="auditTable">
+                                <div class="text-center py-4">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">Loading audit trail...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Template Modal -->
+    <div class="modal fade" id="templateModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-file-code me-2"></i>Add/Edit Template
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="templateForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Template Name</label>
+                                    <input type="text" class="form-control" id="templateName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Template Type</label>
+                                    <select class="form-select" id="templateType" required>
+                                        <option value="">Select Type</option>
+                                        <option value="offer_letter">Offer Letter</option>
+                                        <option value="appointment_letter">Appointment Letter</option>
+                                        <option value="experience_letter">Experience Letter</option>
+                                        <option value="certificate">Certificate</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Template Content</label>
+                            <textarea class="form-control" id="templateContent" rows="15" required
+                                      placeholder="Enter your template content with placeholders like {{name}}, {{date}}, {{role}}, etc."></textarea>
+                            <div class="form-text">
+                                Use placeholders like: {{name}}, {{date}}, {{role}}, {{company}}, {{joining_date}}, {{salary}}, etc.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="templateDescription" rows="3"
+                                      placeholder="Brief description of this template"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveTemplate">
+                        <i class="fas fa-save me-2"></i>Save Template
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
+         style="background: rgba(0,0,0,0.5); z-index: 9999;">
+        <div class="text-center text-white">
+            <div class="spinner-border mb-3" role="status"></div>
+            <h5>Processing...</h5>
+            <p class="mb-0">Please wait while we process your request</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="mainApp" style="display: none;">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar p-3">
+                <h4 class="text-white mb-4">
+                    <i class="fas fa-file-alt me-2"></i>DocGen Mongo
+                </h4>
+                
+                <div class="d-flex align-items-center mb-4 p-2 bg-white bg-opacity-10 rounded">
+                    <i class="fas fa-user-circle fa-2x text-white me-2"></i>
+                    <div>
+                        <div class="text-white fw-bold" id="userInfo">User Name</div>
+                        <small class="text-light" id="userRole">Role</small>
+                    </div>
+                </div>
+                
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="#" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                    <a class="nav-link" href="#" data-section="templates">
+                        <i class="fas fa-file-code me-2"></i>Templates
+                    </a>
+                    <a class="nav-link" href="#" data-section="generate-single">
+                        <i class="fas fa-file-plus me-2"></i>Single Document
+                    </a>
+                    <a class="nav-link" href="#" data-section="generate-bulk">
+                        <i class="fas fa-files me-2"></i>Bulk Generation
+                    </a>
+                    <a class="nav-link" href="#" data-section="audit">
+                        <i class="fas fa-history me-2"></i>Audit Trail
+                    </a>
+                    <a class="nav-link text-danger" href="#" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10 p-4">
+                <!-- Dashboard Section -->
+                <div class="content-section active" id="dashboard">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h2>
+                        <span class="badge bg-success">System Online</span>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card stat-card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-0" id="totalTemplates">0</h5>
+                                        <small>Total Templates</small>
+                                    </div>
+                                    <i class="fas fa-file-code fa-2x opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-0" id="totalGenerated">0</h5>
+                                        <small>Documents Generated</small>
+                                    </div>
+                                    <i class="fas fa-file-alt fa-2x opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-0" id="todayGenerated">0</h5>
+                                        <small>Generated Today</small>
+                                    </div>
+                                    <i class="fas fa-calendar-day fa-2x opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-0" id="activeUsers">0</h5>
+                                        <small>Active Users</small>
+                                    </div>
+                                    <i class="fas fa-users fa-2x opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Recent Activity</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recentActivity">
+                                        <div class="text-center text-muted py-4">
+                                            <i class="fas fa-inbox fa-3x mb-3"></i>
+                                            <p>No recent activity</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Quick Actions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary" data-section="generate-single">
+                                            <i class="fas fa-file-plus me-2"></i>Generate Document
+                                        </button>
+                                        <button class="btn btn-secondary" data-section="templates">
+                                            <i class="fas fa-plus me-2"></i>Create Template
+                                        </button>
+                                        <button class="btn btn-info" data-section="generate-bulk">
+                                            <i class="fas fa-upload me-2"></i>Bulk Upload
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
