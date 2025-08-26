@@ -1,0 +1,66 @@
+[
+  {
+    "name": "System Administrator",
+    "email": "admin@docgen.com",
+    "password": "admin123",
+    "role": "admin",
+    "department": "IT",
+    "isActive": true
+  },
+  {
+    "name": "HR Manager",
+    "email": "hr@docgen.com", 
+    "password": "hr123",
+    "role": "hr",
+    "department": "Human Resources",
+    "isActive": true
+  },
+  {
+    "name": "John Smith",
+    "email": "john.smith@docgen.com",
+    "password": "staff123", 
+    "role": "hr",
+    "department": "Human Resources",
+    "isActive": true
+  },
+  {
+    "name": "Sarah Wilson",
+    "email": "sarah.wilson@docgen.com",
+    "password": "staff123",
+    "role": "staff", 
+    "department": "Operations",
+    "isActive": true
+  },
+  {
+    "name": "Staff User",
+    "email": "staff@docgen.com",
+    "password": "staff123",
+    "role": "staff",
+    "department": "General",
+    "isActive": true
+  },
+  {
+    "name": "Mike Johnson",
+    "email": "mike.johnson@docgen.com", 
+    "password": "staff123",
+    "role": "staff",
+    "department": "Engineering",
+    "isActive": true
+  },
+  {
+    "name": "Lisa Brown",
+    "email": "lisa.brown@docgen.com",
+    "password": "staff123", 
+    "role": "hr",
+    "department": "Human Resources", 
+    "isActive": true
+  },
+  {
+    "name": "David Lee",
+    "email": "david.lee@docgen.com",
+    "password": "staff123",
+    "role": "staff",
+    "department": "Marketing",
+    "isActive": false
+  }
+]
