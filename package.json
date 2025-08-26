@@ -1,0 +1,57 @@
+{
+  "name": "docgen-mongo",
+  "version": "1.0.0",
+  "description": "Document Generation and Automation System with MongoDB",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "seed": "node backend/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "document-generation",
+    "automation",
+    "mongodb",
+    "nodejs",
+    "express",
+    "pdf",
+    "docx",
+    "templates"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5",
+    "csv-parser": "^3.0.0",
+    "xlsx": "^0.18.5",
+    "puppeteer": "^21.6.1",
+    "docx": "^8.5.0",
+    "nodemailer": "^6.9.7",
+    "dotenv": "^16.3.1",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "express-validator": "^7.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/docgen-mongo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/docgen-mongo/issues"
+  },
+  "homepage": "https://github.com/yourusername/docgen-mongo#readme"
+}
