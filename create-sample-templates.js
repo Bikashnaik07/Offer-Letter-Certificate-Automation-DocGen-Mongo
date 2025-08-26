@@ -204,6 +204,62 @@ const createOfferLetterTemplate = async () => {
           ],
           spacing: { after: 200 },
         }),
+
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: "Certificate ID: {{certificate_id}}",
+              italics: true,
+              size: 20,
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 200 },
+        }),
+      ],
+    }],
+  });
+
+  const buffer = await Packer.toBuffer(doc);
+  const filePath = path.join(templatesDir, 'internship_certificate.docx');
+  fs.writeFileSync(filePath, buffer);
+  console.log('✅ Created internship_certificate.docx template');
+};
+
+// Main function to create all templates
+const createAllTemplates = async () => {
+  try {
+    console.log('🔄 Creating sample DOCX templates...\n');
+    
+    await createOfferLetterTemplate();
+    await createCertificateTemplate();
+    await createInternshipCertificateTemplate();
+    
+    console.log('\n🎉 All sample templates created successfully!');
+    console.log('📁 Templates saved in: sample-templates/');
+    console.log('   - offer_letter.docx');
+    console.log('   - certificate.docx');
+    console.log('   - internship_certificate.docx');
+    
+  } catch (error) {
+    console.error('❌ Error creating templates:', error);
+  }
+};
+
+// Run if executed directly
+if (require.main === module) {
+  createAllTemplates();
+}
+
+module.exports = {
+  createAllTemplates,
+  createOfferLetterTemplate,
+  createCertificateTemplate,
+  createInternshipCertificateTemplate,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
       ],
     }],
   });
