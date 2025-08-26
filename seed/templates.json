@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Offer Letter Template",
+    "description": "Standard job offer letter template for new hires",
+    "category": "offer_letter",
+    "content": "Dear {{name}},\n\nWe are pleased to offer you the position of {{position}} at {{company}}. We believe your skills and experience will be valuable assets to our team.\n\n**Position Details:**\n- Job Title: {{position}}\n- Department: {{department}}\n- Reporting Manager: {{manager}}\n- Start Date: {{joining_date}}\n- Work Location: {{location}}\n- Annual Salary: {{salary}}\n\n**Benefits:**\n- Health insurance coverage\n- Paid time off\n- Professional development opportunities\n- Retirement savings plan\n\nThis offer is contingent upon:\n- Successful completion of background verification\n- Submission of required documentation\n- Acceptance of company policies\n\nPlease confirm your acceptance by replying to this letter before {{offer_expiry_date}}. We look forward to welcoming you to the {{company}} family.\n\nSincerely,\n{{hr_name}}\nHuman Resources\n{{company}}\n\nGenerated on: {{date}}",
+    "placeholders": ["name", "position", "company", "department", "manager", "joining_date", "location", "salary", "offer_expiry_date", "hr_name", "date"],
+    "isActive": true,
+    "createdBy": "admin@docgen.com"
+  },
+  {
+    "name": "Experience Certificate Template",
+    "description": "Employee experience certificate for departing employees",
+    "category": "certificate",
+    "content": "**EXPERIENCE CERTIFICATE**\n\n{{company}}\n{{company_address}}\n\nTo Whom It May Concern,\n\nThis is to certify that {{name}} was employed with {{company}} from {{joining_date}} to {{last_working_day}}.\n\n**Employment Details:**\n- Employee ID: {{employee_id}}\n- Designation: {{position}}\n- Department: {{department}}\n- Reporting Manager: {{manager}}\n\n**Key Responsibilities:**\n{{responsibilities}}\n\n**Performance Summary:**\nDuring the tenure, {{name}} demonstrated excellent professional skills, dedication, and commitment to work. {{he_she}} was a valuable team member and contributed significantly to the department's objectives.\n\n**Reason for Leaving:**\n{{reason_for_leaving}}\n\nWe wish {{name}} all the best for future endeavors.\n\nThis certificate is issued upon the request of the employee.\n\n**Issued by:**\n{{hr_name}}\nHuman Resources Manager\n{{company}}\nDate: {{date}}\n\n**Contact Information:**\nEmail: {{hr_email}}\nPhone: {{hr_phone}}\n\n**Company Seal**\n[Official Company Seal]",
+    "placeholders": ["name", "company", "company_address", "joining_date", "last_working_day", "employee_id", "position", "department", "manager", "responsibilities", "he_she", "reason_for_leaving", "hr_name", "date", "hr_email", "hr_phone"],
+    "isActive": true,
+    "createdBy": "admin@docgen.com"
+  },
+  {
+    "name": "Appointment Letter Template",
+    "description": "Official appointment letter for confirmed employees",
+    "category": "appointment_letter",
+    "content": "**APPOINTMENT LETTER**\n\n{{company}}\n{{company_address}}\n\nDate: {{date}}\n\nDear {{name}},\n\nFurther to our offer letter dated {{offer_date}} and your acceptance, we are pleased to formally appoint you as {{position}} in the {{department}} department, effective {{joining_date}}.\n\n**Terms and Conditions of Employment:**\n\n1. **Position & Reporting:**\n   - Designation: {{position}}\n   - Department: {{department}}\n   - Reporting Manager: {{manager}}\n   - Work Location: {{location}}\n\n2. **Compensation:**\n   - Annual CTC: {{salary}}\n   - Payment Schedule: Monthly\n   - Probation Period: {{probation_period}} months\n\n3. **Working Hours:**\n   - Standard working hours: {{working_hours}}\n   - Working days: {{working_days}}\n\n4. **Benefits:**\n   - Health insurance\n   - Provident fund\n   - Leave entitlements as per company policy\n   - Performance bonuses\n\n5. **Confidentiality:**\n   You agree to maintain strict confidentiality regarding company information, trade secrets, and proprietary data.\n\n6. **Termination:**\n   Either party may terminate this employment with {{notice_period}} days written notice.\n\nPlease sign and return one copy of this letter as acknowledgment of your acceptance of these terms.\n\nWe welcome you to {{company}} and look forward to a mutually beneficial association.\n\nYours sincerely,\n\n{{hr_name}}\nHuman Resources Manager\n{{company}}\n\n**Employee Acknowledgment:**\nI accept the above terms and conditions.\n\nSignature: _________________ Date: _________\n{{name}}",
+    "placeholders": ["company", "company_address", "date", "name", "offer_date", "position", "department", "joining_date", "manager", "location", "salary", "probation_period", "working_hours", "working_days", "notice_period", "hr_name"],
+    "isActive": true,
+    "createdBy": "admin@docgen.com"
+  },
+  {
+    "name": "Internship Completion Certificate",
+    "description": "Certificate for completed internship programs",
+    "category": "certificate",
+    "content": "**INTERNSHIP COMPLETION CERTIFICATE**\n\n{{company}}\n{{company_address}}\n\n**Certificate of Internship Completion**\n\nThis is to certify that\n\n**{{name}}**\n\nhas successfully completed an internship program at {{company}} for a period of {{duration}} from {{start_date}} to {{end_date}}.\n\n**Internship Details:**\n- Program: {{program_name}}\n- Department: {{department}}\n- Supervisor: {{supervisor}}\n- Domain: {{domain}}\n\n**Projects Completed:**\n{{projects_completed}}\n\n**Skills Demonstrated:**\n{{skills_demonstrated}}\n\n**Performance Rating:** {{performance_rating}}/5\n\nDuring the internship period, {{name}} demonstrated:\n- Strong analytical and problem-solving skills\n- Excellent communication and teamwork abilities\n- Professional attitude and punctuality\n- Eagerness to learn and adapt\n\n**Evaluation Summary:**\n{{evaluation_summary}}\n\nWe wish {{name}} success in all future endeavors.\n\n**Issued on:** {{date}}\n\n**Authorized by:**\n{{supervisor_name}}\n{{supervisor_title}}\n{{department}}\n{{company}}\n\n**HR Verification:**\n{{hr_name}}\nHuman Resources\n{{company}}\n\n[Company Seal]\n\n**Certificate ID:** {{certificate_id}}",
+    "placeholders": ["name", "company", "company_address", "duration", "start_date", "end_date", "program_name", "department", "supervisor", "domain", "projects_completed", "skills_demonstrated", "performance_rating", "evaluation_summary", "date", "supervisor_name", "supervisor_title", "hr_name", "certificate_id"],
+    "isActive": true,
+    "createdBy": "hr@docgen.com"
+  },
+  {
+    "name": "Salary Certificate Template",
+    "description": "Employee salary certificate for official purposes",
+    "category": "certificate",
+    "content": "**SALARY CERTIFICATE**\n\n{{company}}\n{{company_address}}\nPhone: {{company_phone}} | Email: {{company_email}}\n\nDate: {{date}}\n\n**TO WHOM IT MAY CONCERN**\n\nThis is to certify that {{name}} is employed with {{company}} since {{joining_date}}.\n\n**Employee Details:**\n- Full Name: {{name}}\n- Employee ID: {{employee_id}}\n- Designation: {{position}}\n- Department: {{department}}\n- Employment Type: {{employment_type}}\n\n**Salary Information:**\n- Monthly Gross Salary: {{monthly_salary}}\n- Annual Gross Salary: {{annual_salary}}\n- Basic Salary: {{basic_salary}}\n- Allowances: {{allowances}}\n- Deductions: {{deductions}}\n- Net Monthly Salary: {{net_salary}}\n\nThis certificate is being issued at the request of the employee for {{purpose}}.\n\nThe information provided above is true and accurate as per our records.\n\nFor any verification, please contact the undersigned.\n\n**Issued by:**\n{{hr_name}}\n{{hr_designation}}\nHuman Resources Department\n{{company}}\n\n**Contact Details:**\nPhone: {{hr_phone}}\nEmail: {{hr_email}}\n\n[Official Company Seal]\n\n**Note:** This certificate is valid for 30 days from the date of issue.",
+    "placeholders": ["company", "company_address", "company_phone", "company_email", "date", "name", "joining_date", "employee_id", "position", "department", "employment_type", "monthly_salary", "annual_salary", "basic_salary", "allowances", "deductions", "net_salary", "purpose", "hr_name", "hr_designation", "hr_phone", "hr_email"],
+    "isActive": true,
+    "createdBy": "hr@docgen.com"
+  }
+]
